@@ -1,0 +1,20 @@
+name: google-play-store-apps-analysis
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.12
+
+  # Core libraries named in the assignment.
+  - numpy
+  - pandas
+  - matplotlib
+  - scikit-learn
+
+  # Statistical tests, confidence intervals, and optional plotting helpers.
+  - scipy
+  - seaborn
+
+  # Jupyter interface and Python kernel for the project notebooks.
+  - jupyterlab
+  - ipykernel
