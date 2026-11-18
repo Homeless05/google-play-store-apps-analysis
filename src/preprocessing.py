@@ -156,3 +156,31 @@ def preprocess_apps(df_raw):
     result = result.reset_index(drop=True)
 
     return result, cleaning_report
+
+
+def preprocess_reviews(reviews_raw):
+    """Loại dòng thiếu nội dung và bản sao hoàn toàn khỏi bảng review."""
+    df = reviews_raw.copy()
+    records = []
+
+    # ---------- 1. Loại dòng thiếu nội dung review ----------
+    rows_before = len(df)
+    df = df.loc[df["Translated_Review"].notna()].copy()
+    records.append({
+        "Step": "Remove missing review text",
+        "Rows before": rows_before,
+        "Removed": rows_before - len(df),
+        "Rows after": len(df)
+    })
+
+    # ---------- 2. Loại bản sao hoàn toàn ----------
+    rows_before = len(df)
+    df = df.drop_duplicates(keep="first").reset_index(drop=True)
+    records.append({
+        "Step": "Remove exact duplicates",
+        "Rows before": rows_before,
+        "Removed": rows_before - len(df),
+        "Rows after": len(df)
+    })
+
+    return df, pd.DataFrame(records)
